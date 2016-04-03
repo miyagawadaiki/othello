@@ -76,6 +76,8 @@ public class Main {
 
         int order = stdIn.nextInt();
 
+        System.out.println();
+
         switch(order) {
         case 1: excuteAI_VS_AI();   return true;
         case 2: excuteP_VS_AI();    return true;

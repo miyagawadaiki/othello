@@ -102,7 +102,7 @@ public class StateBoard implements Interface_Board {
     public String toString() {
         String s = "State Board :     \n";
         s += String.format("B:%2d, W:%2d        \n", b_num, w_num);
-        s += "  0 1 2 3 4 5 6 7\n";
+        s += "  0 1 2 3 4 5 6 7 \n";
 
         for(int i=0;i<8;i++) {
             s += i;

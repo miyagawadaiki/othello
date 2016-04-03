@@ -204,7 +204,7 @@ public class Board implements Interface_Board {
             winner = Type.BLACK.name();
         else
             winner = Type.WHITE.name();
-        System.out.printf("%s won!\n", winner);
+        System.out.printf("%s won!\n\n\n", winner);
     }
 
     public String linkStrings(String s1, String s2) {
