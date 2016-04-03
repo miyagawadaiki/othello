@@ -10,7 +10,11 @@ public class CanPutBoard implements Interface_Board {
     }
 
     public CanPutBoard(CanPutBoard copy) {
-
+        this.type = copy.type;
+        this.count = copy.count;
+        for(int i=0;i<8;i++) {
+            this.can_put_board[i] = copy.can_put_board[i].clone();
+        }
     }
 
     public CanPutBoard clone() {

@@ -1,6 +1,6 @@
 public class Board implements Interface_Board {
     private StateBoard st_board;
-    private CanPutBoard[] cp_boards;
+    CanPutBoard[] cp_boards;
 
     private Type cur_type;
     private int turn_cnt;
@@ -9,6 +9,20 @@ public class Board implements Interface_Board {
 
     public Board() {
         init();
+    }
+
+    public Board(Board copy) {
+        init();
+        this.st_board = copy.st_board.clone();
+        this.setCur_type(copy.getCur_type());
+        this.setTurn_cnt(copy.getTurn_cnt());
+        this.setPass(copy.getPass());
+        this.setEnd(copy.getEnd());
+        calcCanPut();
+    }
+
+    public Board clone() {
+        return new Board(this);
     }
 
     public void setCur_type(Type t) { cur_type = t; }
@@ -155,13 +169,18 @@ public class Board implements Interface_Board {
         setEnd(isEnd());
 
         if(getEnd() == true) {
-            EndPrint();
             print();
+            EndPrint();
             return false;
         }
 
         if(getPass() == true) {
             setCur_type(getCur_type().getReverse());
+            if(isPass() == true) {
+                print();
+                EndPrint();
+                return false;
+            }
             setPass(false);
         }
 
@@ -181,6 +200,12 @@ public class Board implements Interface_Board {
 
     public void EndPrint() {
         System.out.println("<<<END>>>");
+        String winner;
+        if(st_board.getB_num() > st_board.getW_num())
+            winner = Type.BLACK.name();
+        else
+            winner = Type.WHITE.name();
+        System.out.printf("%s won!\n", winner);
     }
 
     @Override

@@ -18,7 +18,12 @@ public class StateBoard implements Interface_Board {
     }
 
     public StateBoard(StateBoard copy) {
-
+        init();
+        for(int i=0;i<8;i++) {
+            this.state_board[i] = copy.state_board[i].clone();
+        }
+        this.b_num = copy.b_num;
+        this.w_num = copy.w_num;
     }
 
     public StateBoard clone() {

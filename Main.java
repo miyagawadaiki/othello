@@ -20,7 +20,13 @@ public class Main {
         Board b = new Board();
         b.start();
         while(b.update() == true) {
-            while(b.put(b.getCur_type(),read()) == false);
+            if(b.getCur_type().equals(Type.getFirst()) == true) {
+                while(b.put(b.getCur_type(),read()) == false);
+            }
+            else {
+                EnemyAI ai = new EnemyAI(b);
+                b.put(b.getCur_type(),ai.excute());
+            }
         }
     }
 }
