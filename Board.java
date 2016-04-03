@@ -44,7 +44,7 @@ public class Board implements Interface_Board {
     public boolean put(Type t, Coord c) {
         boolean is_anime;
 
-        if(cp_boards[t.getId()].get(c) == false) return false;
+        if(getCP(c) == false) return false;
         is_anime = st_board.turn(t.toState(),c);
         turn(t,c);
 
@@ -120,6 +120,10 @@ public class Board implements Interface_Board {
         return false;
     }
 
+    public boolean getCP(Coord c) {
+        return cp_boards[getCur_type().getId()].get(c);
+    }
+
     public boolean isPass() {
         return cp_boards[cur_type.getId()].count == 0;
     }
@@ -171,7 +175,7 @@ public class Board implements Interface_Board {
 
         if(getEnd() == true) {
             print();
-            EndPrint();
+            endPrint();
             return false;
         }
 
@@ -179,7 +183,7 @@ public class Board implements Interface_Board {
             setCur_type(getCur_type().getReverse());
             if(isPass() == true) {
                 print();
-                EndPrint();
+                endPrint();
                 return false;
             }
             setPass(false);
@@ -192,14 +196,12 @@ public class Board implements Interface_Board {
     @Override
     public void print() {
         System.out.println(this);
-        System.out.println(st_board);
-        System.out.println();
-        System.out.println(cp_boards[cur_type.getId()]);
-        System.out.println("\n\n\n");
+        System.out.println(linkStrings(st_board.toString(), cp_boards[cur_type.getId()].toString()));
+        System.out.println("\n");
         return;
     }
 
-    public void EndPrint() {
+    public void endPrint() {
         System.out.println("<<<END>>>");
         String winner;
         if(st_board.getB_num() > st_board.getW_num())
@@ -207,6 +209,29 @@ public class Board implements Interface_Board {
         else
             winner = Type.WHITE.name();
         System.out.printf("%s won!\n", winner);
+    }
+
+    public String linkStrings(String s1, String s2) {
+        String s = "";
+        String room = "     ";
+        int a = 0;
+        for(int i=0;i<s1.length();i++) {
+            char temp;
+            if((temp = s1.charAt(i)) == '\n') {
+                s += room;
+                char hoge;
+                while((hoge = s2.charAt(a++)) != '\n')
+                    s += "" + hoge;
+                s += "\n";
+            }
+            else {
+                s += "" + temp;
+            }
+        }
+        s += room;
+        while(a < s2.length())
+            s += "" + s2.charAt(a++);
+        return s;
     }
 
     @Override

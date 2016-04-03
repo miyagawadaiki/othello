@@ -6,7 +6,17 @@ public abstract class EnemyAI {
         this.board = board.clone();
     }
 
-    public abstract void solve();
-    public abstract Coord excute();
-    public abstract String toString();
+    public Coord excute() {
+        ans = solve();
+        System.out.println(this);
+        return ans;
+    }
+
+    public String toString() {
+        String s = "";
+        s += String.format("%d %d", ans.x, ans.y);
+        return s;
+    }
+
+    public abstract Coord solve();
 }
