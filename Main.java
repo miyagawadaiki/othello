@@ -1,12 +1,24 @@
 import java.util.*;
-/*
-public enum Menu {
-    READ,
-
-}
-*/
 
 public class Main {
+    enum Menu {
+        END(0),
+        //    READ,
+        AI_VS_AI(1),
+        P_VS_AI(2),
+        P_VS_P(3);
+
+        private final int id;
+
+        Menu(final int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+
     public static Coord read() {
         Scanner stdIn = new Scanner(System.in);
 
@@ -53,7 +65,26 @@ public class Main {
         }
     }
 
+    public static boolean selectMenu() {
+        Scanner stdIn = new Scanner(System.in);
+
+        for(Menu i : Menu.values()) {
+            System.out.printf("%s:(%d)\n", i.name(), i.getId());
+        }
+
+        System.out.print("What's your order?:");
+
+        int order = stdIn.nextInt();
+
+        switch(order) {
+        case 1: excuteAI_VS_AI();   return true;
+        case 2: excuteP_VS_AI();    return true;
+        case 3: excuteP_VS_P();     return true;
+        default:                    return false;
+        }
+    }
+
     public static void main(String[] args) {
-        excuteAI_VS_AI();
+        while(selectMenu() == true);
     }
 }

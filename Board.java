@@ -1,5 +1,5 @@
 public class Board implements Interface_Board {
-    private StateBoard st_board;
+    StateBoard st_board;
     CanPutBoard[] cp_boards;
 
     private Type cur_type;
@@ -151,13 +151,9 @@ public class Board implements Interface_Board {
 
     @Override
     public void start() {
-//        fr_board.start();
         st_board.start();
         cp_boards[0].start();
         cp_boards[1].start();
-
-//        calcCanPut();
-//        print();
         return;
     }
 
