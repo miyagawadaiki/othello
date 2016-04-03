@@ -1,29 +1,39 @@
-public class Board {
-    Framework_Board fr_board = new Framework_Board();
-    StateBoard st_board = new StateBoard();
-    CanPutBoard black = new CanPutBoard(Type.BLACK);
-    CanPutBoard white = new CanPutBoard(Type.WHITE);
+public class Board implements Interface_Board {
+    private StateBoard st_board;
+    private CanPutBoard[] cp_boards;
+
+    private Type cur_type;
+    private int turn_cnt;
+    private boolean pass;
+    private boolean end;
 
     public Board() {
-
+        init();
     }
+
+    public void setCur_type(Type t) { cur_type = t; }
+
+    public void setTurn_cnt(int n) { turn_cnt = n; }
+
+    public void setPass(boolean b) { pass = b; }
+
+    public void setEnd(boolean b) { end = b; }
+
+    public Type getCur_type() { return cur_type; }
+
+    public int getTurn_cnt() { return turn_cnt; }
+
+    public boolean getPass() { return pass; }
+
+    public boolean getEnd() { return end; }
 
     public boolean put(Type t, Coord c) {
         boolean is_anime;
-        switch(t) {
-        case BLACK:
-            if(black.get(c) == false) return false;
-            is_anime = st_board.turn(t.toState(),c);
-            turn(t,c);
-            break;
-        case WHITE:
-            if(white.get(c) == false) return false;
-            is_anime = st_board.turn(t.toState(),c);
-            turn(t,c);
-            break;
-        default:
-            break;
-        }
+
+        if(cp_boards[t.getId()].get(c) == false) return false;
+        is_anime = st_board.turn(t.toState(),c);
+        turn(t,c);
+
         return true;
     }
 
@@ -62,10 +72,10 @@ public class Board {
             for(int j=0;j<8;j++) {
                 if(st_board.get(new Coord(i,j)).getId() > State.NONE.getId()) continue;
                 if(checkCanPut(Type.BLACK,new Coord(i,j)) == true) {
-                    black.enable(new Coord(i,j));
+                    cp_boards[Type.BLACK.getId()].enable(new Coord(i,j));
                 }
                 if(checkCanPut(Type.WHITE,new Coord(i,j)) == true) {
-                    white.enable(new Coord(i,j));
+                    cp_boards[Type.WHITE.getId()].enable(new Coord(i,j));
                 }
             }
         }
@@ -96,53 +106,75 @@ public class Board {
     }
 
     public boolean isPass() {
-        if(fr_board.cur_turn.equals(Type.BLACK) == true)
-            return black.count == 0;
-        else
-            return white.count == 0;
+        return cp_boards[cur_type.getId()].count == 0;
     }
 
     public boolean isEnd() {
-        if(fr_board.turn_cnt > 60) return true;
-        if(fr_board.cur_turn.equals(Type.BLACK) == true)
+        if(st_board.getB_num() + st_board.getW_num() >= 64) return true;
+        if(cur_type.equals(Type.BLACK) == true)
             return st_board.getB_num() == 0;
         else
             return st_board.getW_num() == 0;
     }
 
+    @Override
+    public void init() {
+        st_board = new StateBoard();
+        cp_boards = new CanPutBoard[2];
+        cp_boards[0] = new CanPutBoard(Type.BLACK);
+        cp_boards[1] = new CanPutBoard(Type.WHITE);
+        setCur_type(Type.getFirst().getReverse());
+        setTurn_cnt(0);
+        setPass(false);
+        setEnd(false);
+        return;
+    }
+
+    @Override
     public void start() {
-        fr_board.start();
+//        fr_board.start();
         st_board.start();
-        black.start();
-        white.start();
+        cp_boards[0].start();
+        cp_boards[1].start();
 
 //        calcCanPut();
 //        print();
         return;
     }
 
-    public void update() {
-        fr_board.update();
+    @Override
+    public boolean update() {
         st_board.update();
-        black.update();
-        white.update();
+        cp_boards[0].update();
+        cp_boards[1].update();
 
         calcCanPut();
-        if(isEnd() == true) EndPrint();
+        setTurn_cnt(getTurn_cnt()+1);
+        setCur_type(getCur_type().getReverse());
+        setPass(isPass());
+        setEnd(isEnd());
+
+        if(getEnd() == true) {
+            EndPrint();
+            print();
+            return false;
+        }
+
+        if(getPass() == true) {
+            setCur_type(getCur_type().getReverse());
+            setPass(false);
+        }
+
         print();
-        return;
+        return true;
     }
 
+    @Override
     public void print() {
-        System.out.println(fr_board);
-        System.out.print(this);
+        System.out.println(this);
         System.out.println(st_board);
         System.out.println();
-        if(fr_board.cur_turn.equals(Type.BLACK) == true)
-            System.out.println(black);
-        else
-            System.out.println(white);
-
+        System.out.println(cp_boards[cur_type.getId()]);
         System.out.println("\n\n\n");
         return;
     }
@@ -151,9 +183,10 @@ public class Board {
         System.out.println("<<<END>>>");
     }
 
+    @Override
     public String toString() {
-        String s = "Board : ";
-
+        String s = "";
+        s = String.format("<<Turn %d: %s>>", getTurn_cnt(), getCur_type());
         return s;
     }
 }

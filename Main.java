@@ -17,13 +17,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Log(1,Type.BLACK,new Coord(0,0)));
         Board b = new Board();
         b.start();
-        while(true) {
-            b.update();
-            while(b.put(b.fr_board.getCur_turn(),read()) == false);
-            b.fr_board.setPass(b.isPass());
+        while(b.update() == true) {
+            while(b.put(b.getCur_type(),read()) == false);
         }
     }
 }

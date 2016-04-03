@@ -1,4 +1,4 @@
-public class CanPutBoard extends Framework_Board implements Interface_Board {
+public class CanPutBoard implements Interface_Board {
     Type type;
     private boolean[][] can_put_board;
     int count;
@@ -51,14 +51,13 @@ public class CanPutBoard extends Framework_Board implements Interface_Board {
     }
 
     @Override
-    public void update() {
+    public boolean update() {
         init();
-        return;
+        return true;
     }
 
     @Override
     public void print() {
-        System.out.println(super.toString());
         System.out.println(this);
         return;
     }

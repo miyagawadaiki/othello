@@ -6,9 +6,9 @@
     白      : 1
 */
 
-public class StateBoard extends Framework_Board implements Interface_Board {
+public class StateBoard implements Interface_Board {
     //状態の列挙
-    State state;
+//    State state;
     private int[][] state_board;
     private int b_num, w_num;
 
@@ -27,22 +27,22 @@ public class StateBoard extends Framework_Board implements Interface_Board {
 
     public boolean turn(State st, Coord c) {
         boolean flag = false;
-        if(get(c).getId() > state.NONE.getId()) flag = true;
+        if(get(c).getId() > State.NONE.getId()) flag = true;
         state_board[c.y][c.x] = st.getId();
 
         return flag;
     }
 
     public State get(Coord c) {
-        return state.valueOf(state_board[c.y][c.x]);
+        return State.valueOf(state_board[c.y][c.x]);
     }
 
     public void count() {
         int b = 0,w = 0;
         for(int i=0;i<8;i++) {
             for(int j=0;j<8;j++) {
-                if(get(new Coord(i,j)).equals(state.BLACK)) b++;
-                if(get(new Coord(i,j)).equals(state.WHITE)) w++;
+                if(get(new Coord(i,j)).equals(State.BLACK)) b++;
+                if(get(new Coord(i,j)).equals(State.WHITE)) w++;
             }
         }
         b_num = b;
@@ -65,7 +65,7 @@ public class StateBoard extends Framework_Board implements Interface_Board {
 
         for(int i=0;i<8;i++) {
             for(int j=0;j<8;j++) {
-                state_board[i][j] = state.NONE.getId();
+                state_board[i][j] = State.NONE.getId();
             }
         }
         return;
@@ -73,23 +73,22 @@ public class StateBoard extends Framework_Board implements Interface_Board {
 
     @Override
     public void start() {
-        turn(state.BLACK,new Coord(3,4));
-        turn(state.BLACK,new Coord(4,3));
-        turn(state.WHITE,new Coord(3,3));
-        turn(state.WHITE,new Coord(4,4));
+        turn(State.BLACK,new Coord(3,4));
+        turn(State.BLACK,new Coord(4,3));
+        turn(State.WHITE,new Coord(3,3));
+        turn(State.WHITE,new Coord(4,4));
         count();
         return;
     }
 
     @Override
-    public void update() {
+    public boolean update() {
         count();
-        return;
+        return true;
     }
 
     @Override
     public void print() {
-        System.out.println(super.toString());
         System.out.println(this);
         return;
     }
@@ -103,7 +102,7 @@ public class StateBoard extends Framework_Board implements Interface_Board {
         for(int i=0;i<8;i++) {
             s += i;
             for(int j=0;j<8;j++) {
-                s += String.format("|%s", state.valueOf(state_board[i][j]));
+                s += String.format("|%s", State.valueOf(state_board[i][j]));
             }
             s += String.format("|%s", ((i<7)?"\n":""));
         }
