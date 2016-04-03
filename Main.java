@@ -24,7 +24,7 @@ public class Main {
                 while(b.put(b.getCur_type(),read()) == false);
             }
             else {
-                EnemyAI ai = new EnemyAI(b);
+                EnemyAI ai = new Simple_AI(b);
                 b.put(b.getCur_type(),ai.excute());
             }
         }

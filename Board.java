@@ -108,7 +108,8 @@ public class Board implements Interface_Board {
                 while(true) {
                     try { temp = new Coord(temp.x+dx[i], temp.y+dy[i]); }
                     catch(IllegalArgumentException e) { break; }
-                    if(st_board.get(temp).equals(put_type.toState()) == true) {
+                    if(st_board.get(temp).equals(State.NONE) == true) { break; }
+                    else if(st_board.get(temp).equals(put_type.toState()) == true) {
                         flag = true;
                         break;
                     }
