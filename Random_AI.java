@@ -1,3 +1,4 @@
+//ランダムな位置に置くAI
 import java.util.Random;
 
 public class Random_AI extends EnemyAI {

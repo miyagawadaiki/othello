@@ -1,7 +1,7 @@
 public class CanPutBoard implements Interface_Board {
-    Type type;
+    Type type;  //白か黒か、どちらの置ける場所を記録するか
     private boolean[][] can_put_board;
-    int count;
+    int count;  //置ける場所の総数
 
     public CanPutBoard(Type type) {
         this.type = type;
@@ -21,6 +21,7 @@ public class CanPutBoard implements Interface_Board {
         return new CanPutBoard(this);
     }
 
+    //指定された座標を設置可能とする
     public void enable(Coord c) {
         can_put_board[c.y][c.x] = true;
         count++;

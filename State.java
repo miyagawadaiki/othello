@@ -1,7 +1,8 @@
+//StateBoard(盤面)用の列挙
 public enum State {
-    NONE(-1,' '),
-    BLACK(0,'O'),
-    WHITE(1,'@');
+    NONE(-1,' '),   //何も置かれてない
+    BLACK(0,'O'),   //黒
+    WHITE(1,'@');   //白
 
     private final int id;
     private final char label;

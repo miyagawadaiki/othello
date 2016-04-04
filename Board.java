@@ -1,11 +1,11 @@
 public class Board implements Interface_Board {
-    StateBoard st_board;
-    CanPutBoard[] cp_boards;
+    StateBoard st_board;        //盤面の状況を持つ。
+    CanPutBoard[] cp_boards;    //今現在指すことができる位置を記録する。白黒で分けている。
 
-    private Type cur_type;
-    private int turn_cnt;
-    private boolean pass;
-    private boolean end;
+    private Type cur_type;  //今のターンの色。白か黒か。
+    private int turn_cnt;   //何ターン目か。
+    private boolean pass;   //今の盤面はパスすべきか
+    private boolean end;    //今の盤面は終了すべきか
 
     public Board() {
         init();
@@ -25,6 +25,7 @@ public class Board implements Interface_Board {
         return new Board(this);
     }
 
+    //メンバのセット用関数
     public void setCur_type(Type t) { cur_type = t; }
 
     public void setTurn_cnt(int n) { turn_cnt = n; }
@@ -33,6 +34,7 @@ public class Board implements Interface_Board {
 
     public void setEnd(boolean b) { end = b; }
 
+    //メンバの取得用関数
     public Type getCur_type() { return cur_type; }
 
     public int getTurn_cnt() { return turn_cnt; }
@@ -41,7 +43,10 @@ public class Board implements Interface_Board {
 
     public boolean getEnd() { return end; }
 
-    public boolean put(Type t, Coord c) {
+    //盤面に置く
+    //置くことができなければfalseを返す
+    public boolean put(Coord c) {
+        Type t = getCur_type();
         boolean is_anime;
 
         if(getCP(c) == false) return false;
@@ -51,6 +56,7 @@ public class Board implements Interface_Board {
         return true;
     }
 
+    //挟まれた石をひっくり返す
     public void turn(Type t, Coord c) {
         int[] dx = {0,-1,-1,-1,0,1,1,1};
         int[] dy = {1,1,0,-1,-1,-1,0,1};
@@ -64,6 +70,7 @@ public class Board implements Interface_Board {
         }
     }
 
+    //ひっくり返す処理用の再帰関数
     public boolean turn_recursion(Type t, Coord c, int dx, int dy) {
         Coord next;
         try {next = new Coord(c.x+dx, c.y+dy);}
@@ -81,6 +88,7 @@ public class Board implements Interface_Board {
         }
     }
 
+    //置くことができる位置を計算する
     public void calcCanPut() {
         for(int i=0;i<8;i++) {
             for(int j=0;j<8;j++) {
@@ -96,6 +104,7 @@ public class Board implements Interface_Board {
         return;
     }
 
+    //calcCanPut用のメソッド
     public boolean checkCanPut(Type put_type, Coord c) {
         int[] dx = {0,-1,-1,-1,0,1,1,1};
         int[] dy = {1,1,0,-1,-1,-1,0,1};
@@ -120,14 +129,17 @@ public class Board implements Interface_Board {
         return false;
     }
 
+    //引数で指定した座標に置けるかどうかを返す
     public boolean getCP(Coord c) {
         return cp_boards[getCur_type().getId()].get(c);
     }
 
+    //パスすべき状況か返す
     public boolean isPass() {
         return cp_boards[cur_type.getId()].count == 0;
     }
 
+    //終了すべき状況か返す
     public boolean isEnd() {
         if(st_board.getB_num() + st_board.getW_num() >= 64) return true;
         if(cur_type.equals(Type.BLACK) == true)
@@ -197,6 +209,7 @@ public class Board implements Interface_Board {
         return;
     }
 
+    //終了時用
     public void endPrint() {
         System.out.println("<<<END>>>");
         String winner;

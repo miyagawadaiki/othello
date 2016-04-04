@@ -1,3 +1,4 @@
+//準備中
 public class GameLogs {
     Log[] logs;
     int length;

@@ -8,10 +8,10 @@
 
 public class StateBoard implements Interface_Board {
     //状態の列挙
-//    State state;
     private int[][] state_board;
     private int b_num, w_num;
 
+    //盤面を記録
     public StateBoard() {
         init();
         start();
@@ -30,6 +30,8 @@ public class StateBoard implements Interface_Board {
         return new StateBoard(this);
     }
 
+    //置く、またはひっくり返す関数
+    //Unityでのアニメーション化のため、ひっくり返すとfalseを返す
     public boolean turn(State st, Coord c) {
         boolean flag = false;
         if(get(c).getId() > State.NONE.getId()) flag = true;
@@ -42,6 +44,7 @@ public class StateBoard implements Interface_Board {
         return State.valueOf(state_board[c.y][c.x]);
     }
 
+    //各石の個数をカウント
     public void count() {
         int b = 0,w = 0;
         for(int i=0;i<8;i++) {
@@ -55,6 +58,7 @@ public class StateBoard implements Interface_Board {
         return;
     }
 
+    //メンバ取得用
     public int getB_num() {
         return b_num;
     }

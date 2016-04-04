@@ -1,3 +1,4 @@
+//左上から順番に見て最初に置けるところに置くAI
 public class Simple_AI extends EnemyAI {
     public Simple_AI(Board board) {
         super(board);

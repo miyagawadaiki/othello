@@ -1,3 +1,4 @@
+//準備中
 public class Log {
     int turn;
     Type type;

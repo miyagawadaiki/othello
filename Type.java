@@ -1,3 +1,5 @@
+//白か黒かのみの列挙
+//主にこっちを使用する(StateはStateBoardのみ)
 public enum Type {
     BLACK(0),
     WHITE(1);
