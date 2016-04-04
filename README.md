@@ -52,5 +52,3 @@ Boardクラス、StateBoardクラス、CanPutBoardクラスを主に使うかと
 * Boardクラスに大概の要素は集まってます。探索のために次のターンに行きたい時は、`board.update()`してください。
 * StateBoardクラスに今の盤面が記録されています。
 * CanPutBoardクラスは石を置くことができる位置を記録しています。
-
-#以上です。
